@@ -78,7 +78,7 @@ cols = struct(...
     'TsrOnlyRep',[185,121,96]/255);
 
 
-figure(8)
+figure(9)
 clf('reset')
 
 Dsources = fields(diffCoeffs);
