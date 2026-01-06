@@ -65,7 +65,7 @@ attractantgreen = [55,168,40]/255;
 repellentred = [185,118,105]/255;
 
 
-%% Define standard parameters
+% Define standard parameters
 
 D1 = 1000;
 D2 = 250;
@@ -398,7 +398,7 @@ drawnow
 
 
 
-%% %% %% %% %% %% %% %%         Figure 1D and 2F         %% %% %% %% %% %% %% %%
+%% %% %% %% %% %% %%         Figure 1D and 2F          %% %% %% %% %% %% %%
 
 
 % Define simulation parameters
