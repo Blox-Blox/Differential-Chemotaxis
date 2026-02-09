@@ -1,3 +1,17 @@
+%% Figure 4 of Bloxham et al. "Repulsion improve chemotaxis" 2026
+%
+% This file contains code to generate Figure 4 in Bloxham, Lee, Gore
+% "Repulsion from slow-diffusing nutrients improves microbial chemotaxis
+% towards moving sources" Nature Communication 2026.
+%
+% This code was written using MATLAB R2020a.
+%
+% (c) Blox Bloxham 2026
+
+%%
+
+% Define diffusion coefficients (units: um^2/s; see sources at bottom)
+
 diffCoeffs = struct(...
     ...
     'Polson1937',struct(...
@@ -48,6 +62,8 @@ diffCoeffs = struct(...
     'Phe',744,...
     'Trp',692));
 
+% Define categorization as attractant or repellent
+
 Yang2015 = struct(...
     'Gly','Attr',...
     'Ser','Attr',...
@@ -70,6 +86,8 @@ Yang2015 = struct(...
     'Tyr','NR',...
     'Trp','Rep');
 
+% Define color palette
+
 cols = struct(...
     'Attr',[98,188,83]/255,...
     'WeakAttr',[129,210,137]/255,...
@@ -77,6 +95,8 @@ cols = struct(...
     'Rep',[155,93,79]/255,...
     'TsrOnlyRep',[185,121,96]/255);
 
+
+% Make the figure
 
 figure(9)
 clf('reset')
@@ -86,12 +106,12 @@ Dsources = fields(diffCoeffs);
 for i = length(Dsources):-1:1
     subplot(1,length(Dsources),i)
     
-    
     AAs = fields(diffCoeffs.(Dsources{i}));
     
     for j = 1:length(AAs)
         
-        x = min(max(0.1*randn,-0.3),0.3);
+        x = min(max(0.1*randn,-0.3),0.3); % Slight horizontal offset to
+                                          % help separate data points
         y = diffCoeffs.(Dsources{i}).(AAs{j});
         
         plot(x,y,'.','Color',cols.(Yang2015.(AAs{j})),'MarkerSize',30)
@@ -111,7 +131,20 @@ end
 
 
 
-
-
-
-
+% Sources:
+%   Polson, A. On the diffusion constants of the amino-acids. Biochem. J. 
+%       31, 1903–1912 (1937).
+%   Gray, D. E. American Institute of Physics Handbook. (McGraw-Hill Book
+%       Company, 1972).
+%   Ma, Y., Zhu, C., Ma, P. & Yu, K. T. Studies on the Diffusion 
+%       Coefficients of Amino Acids in Aqueous Solutions. J. Chem. Eng. 
+%       Data 50, 1192–1196 (2005).
+%   Miyamoto, S. & Shimono, K. Molecular Modeling to Estimate the Diffusion
+%       Coefficients of Drugs and Other Small Molecules. Molecules 25, 5340
+%       (2020).
+%   Miyamoto, S., Ekino, K. & Shimono, K. Estimation of the Diffusion
+%       Coefficients of Small Molecules by Diffusion Measurements with
+%       Agar-gel and Theoretical Molecular Modeling. Chem-Bio Inform. J.
+%       22, 13–20 (2022)
+%   Yang, Y. et al. Relation between chemotaxis and consumption of amino
+%       acids in bacteria. Mol. Microbiol. 96, 1272–1282 (2015).

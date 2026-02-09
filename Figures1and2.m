@@ -1,4 +1,12 @@
-
+%% Figures 1 and 2 of Bloxham et al. "Repulsion improve chemotaxis" 2026
+%
+% This file contains code to generate Figures 1 and 2 in Bloxham, Lee, Gore
+% "Repulsion from slow-diffusing nutrients improves microbial chemotaxis
+% towards moving sources" Nature Communication 2026.
+%
+% This code was written using MATLAB R2020a.
+%
+% (c) Blox Bloxham 2026
 
 
 %% Define some useful functions and values
@@ -65,30 +73,31 @@ attractantgreen = [55,168,40]/255;
 repellentred = [185,118,105]/255;
 
 
-% Define standard parameters
+% Define standard parameters. Units: um, s, M
 
-D1 = 1000;
-D2 = 250;
+D1 = 1000; % 1000 um^2/s
+D2 = 250; % 250 um^2/s
 
 s1 = 10^-12; % 1 fmol/sec
-s2 = 10^-12;
+s2 = 10^-12; 
 
 k1 = 10^-7 * 10^-12; % (100 nM) * (10^-12 um^-3/M)
 k2 = 10^-7 * 10^-12;
 
-n1s = [6,4];
+n1s = [6,4]; % [attractive,differential], assuming receptor hexamers
 n2s = [0,2];
 
 vmax = 6;
-kdX = 0.004;
-
-rp = 10;
+kdX = 0.004; % Constant setting the initial steepness of the increase in
+             % drift velocity as a function of response function gradient
+             % according to: v(dX/dr) = vmax * (dX/dr) / (|dX/dr| + kdX)
+rp = 10; % Source particle radius
 
 
 
 %% %% %% %% %% %% %% %%          Figure 1B          %% %% %% %% %% %% %% %%
 
-% Assume microbe swims at max speed
+% Assume microbe swims at max speed for this illustration
 
 vb = vmax;
 
@@ -109,8 +118,6 @@ zplotlim = [-800,400];
 rs_plot = linspace(rplotlim(1),rplotlim(2),1201);
 zs_plot = linspace(zplotlim(1),zplotlim(2),1201)';
 
-
-
 % Calculate optimal and actual directions of swimming
 
 i = 1j;
@@ -127,7 +134,7 @@ th_actual = atan2(dc_dz(r0,z0,vp,D1),dc_dr(r0,z0,vp,D1));
 
 
 
-% Plot the results
+% % % Plot the results % % %
 
 figure(1)
 clf('reset')
@@ -149,7 +156,7 @@ hold on
 rectangle('Position',[-rp,-rp,2*rp,2*rp],...
     'Curvature',[1,1],'FaceColor','w','EdgeColor','k')
 
-%
+% Plot optimal and actual directions
 
 plot(r0 + [0,300*cos(real(th_opt0))],...
     z0 + [0,300*sin(real(th_opt0))],...
@@ -158,7 +165,6 @@ plot(r0 + [0,300*dc_dr(r0,z0,vp0,D1)./sqrt(dc_dr(r0,z0,vp0,D1).^2 + dc_dz(r0,z0,
     z0 + [0,300*dc_dr(r0,z0,vp0,D1)./sqrt(dc_dr(r0,z0,vp0,D1).^2 + dc_dz(r0,z0,vp0,D1).^2)],...
     'LineWidth',3)
 
-
 set(gca,'Ydir','normal','FontSize',16)
 axis equal tight
 
@@ -166,11 +172,13 @@ xlim([min(rs_plot(:)),max(rs_plot(:))])
 ylim([min(zs_plot(:)),max(zs_plot(:))])
 
 
+% % Lower plot: optimal and actual angles as a function of v_particle % %
+
 subplot(2,1,2)
 plot(vp(imag(th_opt) < 1e-10)/vb,(180/pi)*(real(th_opt(imag(th_opt) < 1e-10)) - th_opt(1)))
 hold on
-plot(vp/vb,(180/pi)*(th_actual - th_opt(1)))
-xlim([0,1.25])
+plot(vp/vb,(180/pi)*(th_actual - th_opt(1))) % th_opt(1) = th_opt(vp = 0)
+xlim([0,1.25])                               % points directly to source
 
 drawnow
 
@@ -410,6 +418,8 @@ tmax = 240;
 
 rz_t = repmat([rz0,nan(2,round(tmax/dt))],[1,1,2]);
 time2particle = nan(1,2);
+
+vp = 1.5*vmax;  
 
 
 % Run the simulation

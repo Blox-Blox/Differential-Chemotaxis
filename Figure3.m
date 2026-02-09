@@ -1,4 +1,16 @@
-
+%% Figure 3 of Bloxham et al. "Repulsion improve chemotaxis" 2026
+%
+% This file contains code to generate Figure 3 in Bloxham, Lee, Gore
+% "Repulsion from slow-diffusing nutrients improves microbial chemotaxis
+% towards moving sources" Nature Communication 2026.
+%
+% NOTE: Results may vary if sections are run out of order as some
+% parameters change between being fixed and being varied across a range of
+% values for different subplots of the figure.
+%
+% This code was written using MATLAB R2020a.
+%
+% (c) Blox Bloxham 2026
 
 
 %% Define some useful functions and values
@@ -65,9 +77,9 @@ attractantgreen = [55,168,40]/255;
 repellentred = [185,118,105]/255;
 
 
-% Define standard parameters
+% Define standard parameters. Units: um, s, M
 
-D1 = 1000;
+D1 = 1000; % um^2/s
 D2 = 250;
 
 s1 = 10^-12; % 1 fmol/sec
@@ -76,18 +88,19 @@ s2 = 10^-12;
 k1 = 10^-7 * 10^-12; % (100 nM) * (10^-12 um^-3/M)
 k2 = 10^-7 * 10^-12;
 
-n1s = [6,4];
+n1s = [6,4]; % [attractive,differential], assuming receptor hexamers
 n2s = [0,2];
 
 vmax = 6;
-kdX = 0.004;
-
+kdX = 0.004; % Constant setting the initial steepness of the increase in
+             % drift velocity as a function of response function gradient
+             % according to: v(dX/dr) = vmax * (dX/dr) / (|dX/dr| + kdX)
 rp = 10;
-vp = 1.5*vmax;
+
+vp = 1.5*vmax; % Initially fixed. Later varied
 
 
-% Turbo colormap
-
+% Turbo colormap (included for earlier versions of MATLAB)
 turbo10 = [
     0.1900    0.0718    0.2322
     0.2733    0.3801    0.8404
@@ -628,18 +641,11 @@ yticks([1,2,5,10,20,50,100,200,500,1000,2000,5000,10000])
 %% %% %% Figure 3G                                                 %% %% %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%D1 = 1000;
-D2s = 1000./[1.01,1.3,2,4,8,16];
-%D2s = 1000./[1.3,1.5874,2.5198,3.1748,5.0397,6.3496,10.0794,12.6992,20];
-%D2s = 1000./1.3;
+D1 = 1000;
+D2s = D1./[1.01,1.3,2,4,8,16];
 
-%s1 = 10^-14;
 s2 = s1;
 
-%k1 = 10^-6 * 10^-15;
-%k2 = 10^-6 * 10^-15;
-
-%n1s = 6*[0:0.1:0.4,linspace(0.49,1,154)];
 n1s = 6*[0:0.1:0.4,0.49,linspace(0.5,1,26)];
 n2s = 6 - n1s;
 
