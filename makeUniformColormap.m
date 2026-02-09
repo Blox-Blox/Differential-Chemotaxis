@@ -1,4 +1,8 @@
 function [cmap,inColorLocations] = makeUniformColormap(rgb_in,N)
+% Takes a colormap and adjusts the spacing between colors to make it
+% roughly perceptually uniform in LAB space.
+%
+% (c) Blox Bloxham 2026
 
 if any(rgb_in > 1,'all') && all(rgb_in >= 0,'all') && all(rgb_in <= 255,'all')
     warning('Assuming RGB input supplied on [0,255] scale.  Output will be [0,1]-scale RGB.')
